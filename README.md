@@ -66,3 +66,47 @@ ggplot(data, aes(x = altitude, y = richness, color = altitude)) +
     strip.text = element_text(face = "bold")
   )
 ```
+- We are switching to barplot isntead because of number of observations
+```
+# Load libraries
+library(tidyverse)
+
+# Read the data
+data <- read.csv("your_table.csv", header = TRUE)
+
+# Calculate richness per sample
+symbiont_cols <- c("Portiera", "Arsenophonus_2", "Hamiltonella", "Cardinium_2", "Hemipteriphilus", "Ricketssia", "Wolbachia")
+data$richness <- rowSums(data[symbiont_cols] > 0)
+
+# Clean up factor levels
+data$altitude <- factor(data$altitude, levels = c("Low", "Medium", "High"))
+data$biotype <- factor(data$biotype, levels = c("Native", "Invasive"))
+
+# Calculate mean and SD per group
+summary_df <- data %>%
+  group_by(altitude, biotype) %>%
+  summarise(
+    mean_richness = mean(richness),
+    sd_richness = sd(richness),
+    n = n()
+  ) %>%
+  ungroup()
+
+# Barplot with error bars (± SD), faceted by biotype
+ggplot(summary_df, aes(x = altitude, y = mean_richness, fill = altitude)) +
+  geom_col(width = 0.6, alpha = 0.8) +
+  geom_errorbar(aes(ymin = mean_richness - sd_richness,
+                    ymax = mean_richness + sd_richness),
+                width = 0.2, linewidth = 0.8) +
+  facet_wrap(~ biotype, labeller = as_labeller(c(Native = "Native", Invasive = "Invasive"))) +
+  theme_bw(base_size = 14) +
+  labs(
+    title = "Average Symbiont Richness by Altitude",
+    x = "Altitude Category",
+    y = "Mean Richness (± SD)"
+  ) +
+  theme(
+    legend.position = "none",
+    strip.text = element_text(face = "bold")
+  )
+```
