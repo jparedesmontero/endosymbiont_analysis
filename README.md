@@ -1,1 +1,1 @@
-# endosymbiont_analysis
+# Whitefly Endosymbiont Analysis
