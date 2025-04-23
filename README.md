@@ -142,3 +142,32 @@ ggplot(data, aes(x = masl, y = richness, color = biotype)) +
     strip.text = element_text(face = "bold")
   )
 ```
+- Another correlation plot only for native whitefly
+```
+# Load libraries
+library(tidyverse)
+library(ggpubr)  # For stat_regline_equation and p-value display
+
+# Read data
+data <- read.csv("your_table.csv", header = TRUE)
+
+# Calculate richness
+symbiont_cols <- c("Portiera", "Arsenophonus_2", "Hamiltonella", "Cardinium_2", "Hemipteriphilus", "Ricketssia", "Wolbachia")
+data$richness <- rowSums(data[symbiont_cols] > 0)
+
+# Subset to Native only
+native_data <- data %>% filter(biotype == "Native")
+
+# Scatter plot with regression and p-value
+ggplot(native_data, aes(x = masl, y = richness)) +
+  geom_point(size = 2, alpha = 0.8, color = "#2C7BB6") +
+  geom_smooth(method = "lm", se = TRUE, color = "black", linewidth = 0.8) +
+  stat_regline_equation(label.y.npc = 0.95, aes(label = ..eq.label..), size = 5) +
+  stat_cor(method = "pearson", label.y.npc = 0.88, size = 5, aes(label = paste0("P = ", ..p.format..))) +
+  theme_bw(base_size = 14) +
+  labs(
+    title = "Richness vs. Elevation (Native Biotype)",
+    x = "Elevation (m above sea level)",
+    y = "Symbiont Richness"
+  )
+```
