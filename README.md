@@ -117,7 +117,7 @@ ggplot(summary_df, aes(x = altitude, y = mean_richness, fill = altitude)) +
 library(tidyverse)
 
 # Read data
-data <- read.csv("your_table.csv", header = TRUE)
+data <- read.csv("endosym_ec.csv", header = TRUE)
 
 # Calculate richness
 symbiont_cols <- c("Portiera", "Arsenophonus_2", "Hamiltonella", "Cardinium_2", "Hemipteriphilus", "Ricketssia", "Wolbachia")
@@ -145,4 +145,53 @@ ggplot(data, aes(x = masl, y = richness, color = biotype)) +
 - Calculate p-value
 ```
 summary(lm(richness ~ masl, data = data[data$biotype == "Native", ]))
+```
+---
+- Calculate shannon diversity
+```
+# Load libraries
+library(tidyverse)
+library(vegan)  # for diversity() function
+
+# Read data
+data <- read.csv("endosym_ec.csv", header = TRUE)
+
+# Select symbiont abundance columns and compute Shannon index
+symbiont_cols <- c("Portiera", "Arsenophonus_2", "Hamiltonella", "Cardinium_2",
+                   "Hemipteriphilus", "Ricketssia", "Wolbachia")
+
+# Calculate Shannon index per row/sample
+data$shannon <- diversity(data[symbiont_cols], index = "shannon")
+
+# Set factors
+data$altitude <- factor(data$altitude, levels = c("Low", "Medium", "High"))
+data$biotype <- factor(data$biotype, levels = c("Native", "Invasive"))
+
+# Summarize by environmental condition and biotype
+summary_df <- data %>%
+  group_by(altitude, biotype) %>%
+  summarise(
+    mean_shannon = mean(shannon),
+    sd_shannon = sd(shannon),
+    n = n()
+  ) %>%
+  ungroup()
+
+# Plot
+ggplot(summary_df, aes(x = altitude, y = mean_shannon, fill = altitude)) +
+  geom_col(width = 0.6, alpha = 0.85) +
+  geom_errorbar(aes(ymin = mean_shannon - sd_shannon,
+                    ymax = mean_shannon + sd_shannon),
+                width = 0.2, linewidth = 0.8) +
+  facet_wrap(~ biotype, labeller = as_labeller(c(Native = "Native", Invasive = "Invasive"))) +
+  theme_bw(base_size = 14) +
+  labs(
+    title = "Shannon Diversity Index by Altitude and Biotype",
+    x = "Altitude Category",
+    y = "Shannon Diversity Index"
+  ) +
+  theme(
+    legend.position = "none",
+    strip.text = element_text(face = "bold")
+  )
 ```
