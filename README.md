@@ -110,3 +110,35 @@ ggplot(summary_df, aes(x = altitude, y = mean_richness, fill = altitude)) +
     strip.text = element_text(face = "bold")
   )
 ```
+- Correlation between richness and masl
+```
+
+# Load libraries
+library(tidyverse)
+
+# Read data
+data <- read.csv("your_table.csv", header = TRUE)
+
+# Calculate richness
+symbiont_cols <- c("Portiera", "Arsenophonus_2", "Hamiltonella", "Cardinium_2", "Hemipteriphilus", "Ricketssia", "Wolbachia")
+data$richness <- rowSums(data[symbiont_cols] > 0)
+
+# Clean factor labels
+data$biotype <- factor(data$biotype, levels = c("Native", "Invasive"))
+
+# Scatter plot with linear regression, faceted by biotype
+ggplot(data, aes(x = masl, y = richness, color = biotype)) +
+  geom_point(size = 2, alpha = 0.8) +
+  geom_smooth(method = "lm", se = TRUE, color = "black", linewidth = 0.8) +
+  facet_wrap(~ biotype, labeller = as_labeller(c(Native = "Native", Invasive = "Invasive"))) +
+  theme_bw(base_size = 14) +
+  labs(
+    title = "Symbiont Richness vs. Elevation (masl)",
+    x = "Elevation (m above sea level)",
+    y = "Symbiont Richness"
+  ) +
+  theme(
+    legend.position = "none",
+    strip.text = element_text(face = "bold")
+  )
+```
