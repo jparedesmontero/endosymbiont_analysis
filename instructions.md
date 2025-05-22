@@ -108,5 +108,14 @@ qiime tools import \
   --input-format CasavaOneEightSingleLanePerSampleDirFmt
 ```
 
-
+```
+qiime cutadapt trim-paired \
+  --i-demultiplexed-sequences reads_qza/reads.qza \
+  --p-cores 4 \
+  --p-front-f TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGGTGYCAGCMGCCGCGGTAA \
+  --p-front-r GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGGGACTACNVGGGTWTCTAAT \
+  --p-discard-untrimmed \
+  --p-no-indels \
+  --o-trimmed-sequences reads_qza/reads_trimmed.qza
+```
 
