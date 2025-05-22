@@ -99,7 +99,9 @@ git push origin main
 module load anaconda3        
 conda activate qiime2-amplicon-2024.2
 ```
-
+```
+mkdri reads_qza
+```
 ```
 qiime tools import \
   --type SampleData[PairedEndSequencesWithQuality] \
