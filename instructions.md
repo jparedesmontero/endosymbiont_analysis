@@ -63,5 +63,14 @@ source ~/.bashrc
 ```
 ln -s /ocean/projects/agr250001p/shared/whitefly/rawdata .
 ```
+## Quality control with FastQC
+```
+module load FastQC
+```
+
+```
+fastqc -t 4 rawdata/*.fastq.gz -o fastqc_out
+```
+
 
 
