@@ -67,7 +67,9 @@ ln -s /ocean/projects/agr250001p/shared/whitefly/rawdata .
 ```
 module load FastQC
 ```
-
+```
+mkdir fastqc_out
+```
 ```
 fastqc -t 4 rawdata/*.fastq.gz -o fastqc_out
 ```
