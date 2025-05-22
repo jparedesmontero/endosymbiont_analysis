@@ -59,3 +59,9 @@ echo 'alias myocean="cd /ocean/projects/agr250001p/erandolp"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
+## Create symlink to data
+```
+ln -s /ocean/projects/agr250001p/shared/whitefly/rawdata .
+```
+
+
