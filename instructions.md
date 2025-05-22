@@ -77,6 +77,16 @@ fastqc -t 4 rawdata/*.fastq.gz -o fastqc_out
 ```
 multiqc fastqc_out --filename multiqc_endosym.html
 ```
+## Upload file to repository
+```
+git add multiqc_endosym.html
+```
+```
+git commit -m "Uploading qc summary to repository"
+```
+```
+git push origin main
+```
 
 
 
