@@ -94,6 +94,11 @@ git config --global credential.helper store
 ```
 git push origin main
 ```
+## Running qiime
+```
+module load anaconda3        
+conda activate qiime2-amplicon-2024.2
+```
 
 
 
