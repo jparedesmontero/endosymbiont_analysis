@@ -87,6 +87,13 @@ git commit -m "Uploading qc summary to repository"
 ```
 git push origin main
 ```
+## Store key in hpc
+```
+git config --global credential.helper store
+```
+```
+git push origin main
+```
 
 
 
