@@ -52,5 +52,10 @@ conda activate qiime2-amplicon-2024.2
 ```
 conda deactivate
 ```
-.
+## Create an alias to go to ocean disk
+```
+alias myocean="cd /ocean/projects/agr250001p/erandolp"
+echo 'alias myocean="cd /ocean/projects/agr250001p/erandolp"' >> ~/.bashrc
+source ~/.bashrc
+```
 
