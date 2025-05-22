@@ -118,4 +118,13 @@ qiime cutadapt trim-paired \
   --p-no-indels \
   --o-trimmed-sequences reads_qza/reads_trimmed.qza
 ```
-
+```
+qiime demux summarize \
+  --i-data reads_qza/reads_trimmed.qza \
+  --o-visualization reads_qza/reads_trimmed_summary.qzv
+```
+```
+git add "reads_qza/reads_trimmed_summary.qzv"
+git commit -m "Adding reads summary results"
+git push origin main
+```
