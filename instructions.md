@@ -100,5 +100,13 @@ module load anaconda3
 conda activate qiime2-amplicon-2024.2
 ```
 
+```
+qiime tools import \
+  --type SampleData[PairedEndSequencesWithQuality] \
+  --input-path rawdata/ \
+  --output-path reads_qza/reads.qza \
+  --input-format CasavaOneEightSingleLanePerSampleDirFmt
+```
+
 
 
