@@ -73,6 +73,10 @@ mkdir fastqc_out
 ```
 fastqc -t 4 rawdata/*.fastq.gz -o fastqc_out
 ```
+## Summarize quality control results with multiQC
+```
+multiqc fastqc_out --filename multiqc_endosym.html
+```
 
 
 
