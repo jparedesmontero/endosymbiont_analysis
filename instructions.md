@@ -100,7 +100,7 @@ module load anaconda3
 conda activate qiime2-amplicon-2024.2
 ```
 ```
-mkdri reads_qza
+mkdir reads_qza
 ```
 ```
 qiime tools import \
