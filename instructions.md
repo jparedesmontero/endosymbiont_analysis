@@ -131,6 +131,11 @@ git commit -m "Adding reads summary results"
 git push origin main
 ```
 # Denoising reads
+## Ask for more computer resources
+```
+salloc --mem=100G --time=6:00:00 --cpus-per-task=32
+```
+
 1. Join pair-end reds
 ```         
 qiime vsearch merge-pairs \
