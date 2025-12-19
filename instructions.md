@@ -130,3 +130,46 @@ git add "reads_qza/reads_trimmed_summary.qzv"
 git commit -m "Adding reads summary results"
 git push origin main
 ```
+# Denoising reads
+1. Join pair-end reds
+```         
+qiime vsearch merge-pairs \
+  --i-demultiplexed-seqs reads_qza/reads_trimmed.qza \
+  --output-dir reads_qza/reads_joined
+```
+2. Filter out low-quality reads
+```         
+qiime quality-filter q-score \
+  --i-demux reads_qza/reads_joined/merged_sequences.qza \
+  --o-filter-stats filt_stats.qza \
+  --o-filtered-sequences reads_qza/reads_trimmed_joined_filt.qza
+```
+3. Summarize results
+```         
+qiime demux summarize \
+  --i-data reads_qza/reads_trimmed_joined_filt.qza \
+  --o-visualization reads_qza/reads_trimmed_joined_filt_summary.qzv
+```
+- Add, commit and push `reads_qza/reads_trimmed_joined_filt.qzv` to Git
+- Download and open in https://view.qiime2.org/
+
+4. Actual denoising with deblur
+
+```         
+qiime deblur denoise-16S \
+  --i-demultiplexed-seqs reads_qza/reads_trimmed_joined_filt.qza \
+  --p-trim-length 390 \
+  --p-sample-stats \
+  --p-jobs-to-start 4 \
+  --p-min-reads 1 \
+  --output-dir deblur_output
+```
+- Note: this command may take up to 10 minutes or so to run.
+
+5. Summarize dublur output
+```         
+qiime feature-table summarize \
+  --i-table deblur_output/table.qza \
+  --o-visualization deblur_output/deblur_table_summary.qzv
+```
+- Add, commit and push `deblur_output/deblur_table_summary.qzv` to Git
