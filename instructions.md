@@ -236,4 +236,39 @@ qiime feature-table summarize \
 ```
 sbatch microbiome.slurm
 ```
+## Sample renaming
+-We found -I knew this!- that our samples have underscores on them, qimme does not like that. So before we import we have to do the following:
+```
+mv reads_qza/ reads_qza2
+#we are just renaming our old folder
+```
+-Create reads_qza again
+```
+mkdir reads_qza
+```
+-Make sure you are in the "endosymbiont_analysis" folder
+```
+cd /ocean/projects/agr250001p/erandolp/endosymbiont_analysis
+```
+- Create a file names "rename.sh"
+  - Open the "vi editor"
+  ```
+  vi rename.sh
+  ```
+  -Copy and paste the following code:
+  ```
+  echo "sample-id,absolute-filepath,direction" > manifest.csv
+
+for r1 in rawdata/*_R1_001.fastq.gz; do
+  r2="${r1/_R1_001.fastq.gz/_R2_001.fastq.gz}"
+  [ -f "$r2" ] || { echo "Missing R2 for $r1"; exit 1; }
+
+  base="$(basename "$r1")"
+  sid="${base%%_S*}"     # works for both long and short names
+  sid="${sid//_/-}"      # Deblur-safe
+
+  echo "$sid,$(readlink -f "$r1"),forward" >> manifest.csv
+  echo "$sid,$(readlink -f "$r2"),reverse" >> manifest.csv
+done
+```
 
