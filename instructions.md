@@ -271,7 +271,7 @@ cd /ocean/projects/agr250001p/erandolp/endosymbiont_analysis
   echo "$sid,$(readlink -f "$r1"),forward" >> manifest.csv
   echo "$sid,$(readlink -f "$r2"),reverse" >> manifest.csv
   done
-```
+  ```
 - Exit the vi editor by typing `:wq`
 - Make the rename.sh file executable by typing:
 ```
