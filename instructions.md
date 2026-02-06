@@ -133,9 +133,9 @@ git push origin main
 # Denoising reads
 ## Ask for more computer resources
 ```
+#Takes too long, we will write a pipeline instead
 salloc --mem=100G --time=6:00:00 --cpus-per-task=32
 ```
-
 1. Join pair-end reds
 ```         
 qiime vsearch merge-pairs \
@@ -178,3 +178,56 @@ qiime feature-table summarize \
   --o-visualization deblur_output/deblur_table_summary.qzv
 ```
 - Add, commit and push `deblur_output/deblur_table_summary.qzv` to Git
+
+## Denoising with a pipeline
+-Create a new file named microbiome.slurm
+```
+vi microbiome.slurm
+```
+- Copy and Paste the script below
+```
+#!/bin/bash
+#SBATCH --job-name=ec_microbiome
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=100G
+#SBATCH --time=16:00:00
+#SBATCH --output=ec_microbiome.log
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=emrandol@svsu.edu
+
+cd /ocean/projects/agr250001p/erandolp/endosymbiont_analysis/
+
+module load anaconda3        
+conda activate qiime2-amplicon-2024.2
+
+#1. Join pair-end reds
+qiime vsearch merge-pairs \
+  --i-demultiplexed-seqs reads_qza/reads_trimmed.qza \
+  --output-dir reads_qza/reads_joined
+
+#2. Filter out low-quality reads
+qiime quality-filter q-score \
+  --i-demux reads_qza/reads_joined/merged_sequences.qza \
+  --o-filter-stats filt_stats.qza \
+  --o-filtered-sequences reads_qza/reads_trimmed_joined_filt.qza
+
+#3. Summarize results       
+qiime demux summarize \
+  --i-data reads_qza/reads_trimmed_joined_filt.qza \
+  --o-visualization reads_qza/reads_trimmed_joined_filt_summary.qzv
+
+#4. Actual denoising with deblur        
+qiime deblur denoise-16S \
+  --i-demultiplexed-seqs reads_qza/reads_trimmed_joined_filt.qza \
+  --p-trim-length 390 \
+  --p-sample-stats \
+  --p-jobs-to-start 4 \
+  --p-min-reads 1 \
+  --output-dir deblur_output
+
+#5. Summarize dublur output       
+qiime feature-table summarize \
+  --i-table deblur_output/table.qza \
+  --o-visualization deblur_output/deblur_table_summary.qzv
+```
+
