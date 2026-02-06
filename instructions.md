@@ -230,4 +230,10 @@ qiime feature-table summarize \
   --i-table deblur_output/table.qza \
   --o-visualization deblur_output/deblur_table_summary.qzv
 ```
+- Exit vi editor by typing ":wq" and enter
+- Check the file with "cat microbiome.slurm"
+- Run script with
+```
+sbatch microbiome.slurm
+```
 
