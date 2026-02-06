@@ -272,4 +272,15 @@ cd /ocean/projects/agr250001p/erandolp/endosymbiont_analysis
   echo "$sid,$(readlink -f "$r2"),reverse" >> manifest.csv
   done
 ```
+  - Exit the vi editor by typing `:wq`
+  - Make the rename.sh file executable by typing:
+  ```
+  chmod u+x rename.sh
+  ```
+- Run the rename.sh file
+```
+./rename.sh
+```
+- This step should create a file named "manifesto.csv", which we'll use to import data into qiime
+
 
