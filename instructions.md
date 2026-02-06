@@ -270,8 +270,8 @@ cd /ocean/projects/agr250001p/erandolp/endosymbiont_analysis
     # copy both reads into that sample folder
     cp -n "$r1" "../casava_reads/$sid/"
     cp -n "${r1/_R1_001.fastq.gz/_R2_001.fastq.gz}" "../casava_reads/$sid/"
-  done
-  ```
+    done
+    ```
 chmod u+x casava.sh
 ```
 - Run the casava.sh file
