@@ -259,7 +259,8 @@ cd /ocean/projects/agr250001p/erandolp/endosymbiont_analysis
   ```
   echo "sample-id,absolute-filepath,direction" > manifest.csv
 
-for r1 in rawdata/*_R1_001.fastq.gz; do
+  for r1 in rawdata/*_R1_001.fastq.gz; do
+  
   r2="${r1/_R1_001.fastq.gz/_R2_001.fastq.gz}"
   [ -f "$r2" ] || { echo "Missing R2 for $r1"; exit 1; }
 
@@ -269,6 +270,6 @@ for r1 in rawdata/*_R1_001.fastq.gz; do
 
   echo "$sid,$(readlink -f "$r1"),forward" >> manifest.csv
   echo "$sid,$(readlink -f "$r2"),reverse" >> manifest.csv
-done
+  done
 ```
 
