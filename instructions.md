@@ -250,37 +250,48 @@ mkdir reads_qza
 ```
 cd /ocean/projects/agr250001p/erandolp/endosymbiont_analysis
 ```
-- Create a file names "rename.sh"
+- Create a file named "casava.sh"
   - Open the "vi editor"
   ```
-  vi rename.sh
+  vi casava.sh
   ```
   -Copy and paste the following code:
   ```
-  echo "sample-id,absolute-filepath,direction" > manifest.csv
+  cd /ocean/projects/agr250001p/jparedesmontero/endosymbiont_analysis/rawdata
 
-  for r1 in rawdata/*_R1_001.fastq.gz; do
+  mkdir -p ../casava_reads
   
-  r2="${r1/_R1_001.fastq.gz/_R2_001.fastq.gz}"
-  [ -f "$r2" ] || { echo "Missing R2 for $r1"; exit 1; }
-
-  base="$(basename "$r1")"
-  sid="${base%%_S*}"     # works for both long and short names
-  sid="${sid//_/-}"      # Deblur-safe
-
-  echo "$sid,$(readlink -f "$r1"),forward" >> manifest.csv
-  echo "$sid,$(readlink -f "$r2"),reverse" >> manifest.csv
+  for r1 in *_R1_001.fastq.gz; do
+    base="${r1%%_S*}"          # e.g., 6778_10_1G
+    sid="${base//_/-}"         # e.g., 6778-10-1G  (Deblur-safe)
+  
+    mkdir -p "../casava_reads/$sid"
+  
+    # copy both reads into that sample folder
+    cp -n "$r1" "../casava_reads/$sid/"
+    cp -n "${r1/_R1_001.fastq.gz/_R2_001.fastq.gz}" "../casava_reads/$sid/"
   done
   ```
-- Exit the vi editor by typing `:wq`
-- Make the rename.sh file executable by typing:
+chmod u+x casava.sh
 ```
-chmod u+x rename.sh
-```
-- Run the rename.sh file
+- Run the casava.sh file
 ```
 ./rename.sh
 ```
-- This step should create a file named "manifesto.csv", which we'll use to import data into qiime
+- It is always good to confirm you are in the right directory, type `pwd` and the outpur should be:
+```
+/ocean/projects/agr250001p/erandolp/endosymbiont_analysis
+```
+- If not `cd /ocean/projects/agr250001p/erandolp/endosymbiont_analysis`
+- Make sure anaconda and qiime are loaded
+## Import data into qimme
+```
+qiime tools import \
+  --type SampleData[PairedEndSequencesWithQuality] \
+  --input-path casava_reads \
+  --output-path reads_qza/reads.qza \
+  --input-format CasavaOneEightSingleLanePerSampleDirFmt
+```
+
 
 
