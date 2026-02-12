@@ -255,7 +255,11 @@ cd /ocean/projects/agr250001p/erandolp/endosymbiont_analysis
   ```
   vi casava.sh
   ```
-  -Copy and paste the following code:
+  - Copy raw data into your folder
+  ```
+  cp -r /ocean/projects/agr250001p/shared/whitefly/rawdata .
+  ```
+  - Copy and paste the following code:
   ```
   rm -rf casava_reads
   mkdir -p casava_reads
