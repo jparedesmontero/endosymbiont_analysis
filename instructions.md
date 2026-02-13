@@ -383,7 +383,7 @@ qiime demux summarize \
 # ---- 4) Deblur denoise ----
 qiime deblur denoise-16S \
   --i-demultiplexed-seqs "${READS_QZA}/reads_trimmed_joined_filt.qza" \
-  --p-trim-length 390 \
+  --p-trim-length 240 \
   --p-sample-stats \
   --p-jobs-to-start 4 \
   --p-min-reads 1 \
