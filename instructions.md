@@ -346,7 +346,7 @@ rm -f \
   table_final_summary.qzv \
   taxa-bar-plots.qzv
 
-rm -rf taxa
+rm -rf "${READS_QZA}/reads_joined" taxa
 mkdir -p "${READS_QZA}"
 
 # 0) Import
