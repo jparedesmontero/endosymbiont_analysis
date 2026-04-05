@@ -464,7 +464,7 @@ sbatch microbiome.slurm
 echo "sample-id" > metadata.tsv
 ls casava_reads/*_R1_001.fastq.gz \
   | sed 's#.*/##' \
-  | sed 's/_L001_R1_001.fastq.gz//' \
+  | sed 's/_S[0-9]\+_L001_R1_001.fastq.gz//' \
   | sort -u >> metadata.tsv
 ```
 
