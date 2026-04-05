@@ -355,10 +355,8 @@ qiime tools import \
 qiime cutadapt trim-paired \
   --i-demultiplexed-sequences "${READS_QZA}/reads.qza" \
   --p-cores 4 \
-  --p-front-f TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGGTGYCAGCMGCCGCGGTAA \
-  --p-front-r GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGGGACTACNVGGGTWTCTAAT \
-  --p-discard-untrimmed \
-  --p-no-indels \
+  --p-front-f GTGYCAGCMGCCGCGGTAA \
+  --p-front-r GGACTACNVGGGTWTCTAAT \
   --o-trimmed-sequences "${READS_QZA}/reads_trimmed.qza"
 
 qiime demux summarize \
