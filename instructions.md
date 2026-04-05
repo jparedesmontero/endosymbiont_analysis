@@ -331,16 +331,20 @@ conda activate qiime2-amplicon-2024.2
 READS_QZA="reads_qza"
 DADA2_PREFIX="dada2"
 
-rm -f \
-  "${READS_QZA}/reads.qza" \
-  "${READS_QZA}/reads_trimmed.qza" \
-  "${READS_QZA}/reads_trimmed_summary.qzv" \
-  "${DADA2_PREFIX}_table.qza" \
-  "${DADA2_PREFIX}_rep_seqs.qza" \
-  "${DADA2_PREFIX}_stats.qza" \
-  "${DADA2_PREFIX}_table_summary.qzv" \
-  "${DADA2_PREFIX}_stats.qzv"
+rm -f  "${READS_QZA}/reads.qza" \
+       "${READS_QZA}/reads_trimmed.qza" \
+       "${READS_QZA}/reads_trimmed_summary.qzv" \
+       "${READS_QZA}/reads_trimmed_joined_filt.qza" \
+       "${READS_QZA}/reads_trimmed_joined_filt_summary.qzv" \
+       "filt_stats.qza" \
+       "deblur_table_filt.qza" \
+       "deblur_table_filt_contam.qza" \
+       "deblur_table_final.qza" \
+       "deblur_table_final_summary.qzv" \
+       "deblur_rep_seqs_final.qza" \
+       "taxa-bar-plots.qzv"
 
+rm -rf "${READS_QZA}/reads_joined" "${DEBLUR_DIR}" taxa
 mkdir -p "${READS_QZA}"
 
 # 0) Import
